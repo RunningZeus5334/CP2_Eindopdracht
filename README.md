@@ -1,2 +1,4 @@
 # CP2_Eindopdracht
-Bla bla bla
+
+
+Json file omzetten naar een struct omzetten
