@@ -28,7 +28,6 @@ effect_area_types type;
 }effectarea;
 
 
-
 /*
 the struct for all the spells
 */
@@ -71,13 +70,12 @@ struct playerstats {
 // make form json file structs
 // read ragged array
 void readragged(int argc, char *argv[], struct playerstats); // read ragged array function
-
-
 int main(int argc, char *argv[]) {
   struct character player;
   
   struct playerstats player1;
   readragged(argc, &*argv, player1); // reading ragged array
+
 
   Read_Input();
   
@@ -89,7 +87,6 @@ int Read_Input(){
 
   return 5;
 }
-
 
 //----------------------------------------
 // read function
