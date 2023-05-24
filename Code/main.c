@@ -70,6 +70,9 @@ struct playerstats {
 // make form json file structs
 // read ragged array
 void readragged(int argc, char *argv[], struct playerstats); // read ragged array function
+void JSON_Fetch(char *spellname /*name of the spell to fetch*/);
+
+
 int main(int argc, char *argv[]) {
   struct character player;
   
@@ -77,8 +80,10 @@ int main(int argc, char *argv[]) {
   readragged(argc, &*argv, player1); // reading ragged array
 
 
-  Read_Input();
-  
+  //Read_Input();
+  JSON_Fetch("vicious-mockery");
+
+
   return 0;
 }
 
@@ -133,4 +138,28 @@ void readragged(int argc, char *argv[], struct playerstats player1) {
     }
   }
 }
+
+void JSON_Fetch(char *spellname){
+char CLI_buffer[1000];
+snprintf(CLI_buffer, sizeof(CLI_buffer),"curl https://www.dnd5eapi.co/api/spells/%s", spellname);
+FILE *fp;
+char JSON_FILE[3000];
+fp = popen(CLI_buffer, "r");
+  
+if (fp == NULL) {
+  printf("Error opening CLI_buffer\n");
+  return;
+}else{
+  fgets(JSON_FILE, sizeof(JSON_FILE)-1, fp);
+  //printf(JSON_FILE);
+  system("clear");    
+  FILE *JSON;
+  char filename[30];
+  sprintf(filename, "%s.json", spellname);
+  JSON = fopen("json.json", "w");
+  fprintf(JSON, JSON_FILE);
+  fclose(JSON);
+  }
+}
+
 
