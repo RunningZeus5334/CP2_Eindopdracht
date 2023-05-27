@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "input.h"
+#include "json.h"
+
 
 //ik mag geen c++ dus:
 #define FALSE 0
@@ -79,8 +82,11 @@ int main(int argc, char *argv[]) {
   struct playerstats player1;
   readragged(argc, &*argv, player1); // reading ragged array
 
-
-  //Read_Input();
+  Greeting(); 
+  int function_called=1;
+  while (function_called){
+  function_called = StartFunq(GetFunq());
+  }
   JSON_Fetch("vicious-mockery");
 
 
@@ -123,43 +129,22 @@ void readragged(int argc, char *argv[], struct playerstats player1) {
           } else
             count++;
         }
-        player1.spelamount = calloc(1, sizeof(int));
-        *player1.spelamount = count;
-        player1.amount = (struct spellcard *)calloc(*player1.spelamount, sizeof(struct spellcard));
-        for (int j = 2; j <2+ *player1.spelamount; j++) {
+          player1.spelamount = calloc(1, sizeof(int));
+          *player1.spelamount = count;
+          player1.amount = (struct spellcard *)calloc(*player1.spelamount, sizeof(struct spellcard));
+          for (int j = 2; j <2+ *player1.spelamount; j++) {
           player1.amount[j].spel = (char *)calloc(strlen(argv[j + i]) + 1, sizeof(char));
           strcpy(player1.amount[j].spel, argv[j + i]);
           printf("%s\n", player1.amount[j].spel);
         }
       }
-     else if (strcmp(argv[i], "-h") == 0) {
+      else if (strcmp(argv[i], "-h") == 0) {
       printf("test3\n");
      }
     }
   }
 }
 
-void JSON_Fetch(char *spellname){
-char CLI_buffer[1000];
-snprintf(CLI_buffer, sizeof(CLI_buffer),"curl https://www.dnd5eapi.co/api/spells/%s", spellname);
-FILE *fp;
-char JSON_FILE[3000];
-fp = popen(CLI_buffer, "r");
-  
-if (fp == NULL) {
-  printf("Error opening CLI_buffer\n");
-  return;
-}else{
-  fgets(JSON_FILE, sizeof(JSON_FILE)-1, fp);
-  //printf(JSON_FILE);
-  system("clear");    
-  FILE *JSON;
-  char filename[30];
-  sprintf(filename, "%s.json", spellname);
-  JSON = fopen("json.json", "w");
-  fprintf(JSON, JSON_FILE);
-  fclose(JSON);
-  }
-}
+
 
 
