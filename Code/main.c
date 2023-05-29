@@ -6,6 +6,7 @@
 #include "inputoutput.h"
 
 
+
 //ik mag geen c++ dus:
 #define FALSE 0
 #define TRUE 1
@@ -77,7 +78,7 @@ int main(int argc, char *argv[]) {
   while (function_called){
   function_called = StartFunq(GetFunq());
   }
-  JSON_Fetch("vicious-mockery");
+  
 
 
   return 0;
@@ -119,17 +120,16 @@ void readragged(int argc, char *argv[], struct character player1) {
           } else
             count++;
         }
-          //createCircularLinkedList(count);
+ 
           player1.num_spells = calloc(1, sizeof(int));
           *player1.num_spells = count;
-          
           for (int j = 2; j <2+ *player1.num_spells; j++) {
           player1.spells[j].index = (char *)calloc(strlen(argv[j + i]) + 1, sizeof(char));
           char tmp[50];
           sscanf(argv[j + i], "%[^.] \0.json", player1.spells[j].index);
           JSON_Fetch( player1.spells[j].index);
           printf("%s\n", player1.spells[j].index);
-        }
+
       }
       else if (strcmp(argv[i], "-h") == 0) {
       printf("test3\n");
@@ -137,5 +137,4 @@ void readragged(int argc, char *argv[], struct character player1) {
     }
   }
 }
-
 
