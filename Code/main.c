@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "input.h"
 #include "json.h"
+#include "inputoutput.h"
+
 
 
 //ik mag geen c++ dus:
@@ -21,9 +22,6 @@ string name;
 string url;
 }spellclass;
 
-typedef struct{
-
-}damage;
 
 typedef struct{
 int size;
@@ -31,10 +29,13 @@ effect_area_types type;
 }effectarea;
 
 
+
+
 /*
 the struct for all the spells
 */
 typedef struct{
+string index;
 spellclass spellname;
 string desc;
 string higher_level;
@@ -51,35 +52,25 @@ string attack_type;
 spellclass school;
 spellclass classes;
 spellclass subclasses;
+
 }spell;
 
 
+
 struct character {
-  uint8_t level;
-  uint8_t spells[]; // spell level //amount of spells
-};
+  uint8_t *level;
+  uint8_t *num_spells; // spell level //amount of spells
+  spell spells[];
+}character;
 
-
-struct spellcard {
-  char *spel;
-};
-// structs for the player with pointers
-struct playerstats {
-  int *spellslots[9];
-  int *level;
-  int *spelamount;
-  struct spellcard *amount;
-};
 // make form json file structs
 // read ragged array
-void readragged(int argc, char *argv[], struct playerstats); // read ragged array function
+void readragged(int argc, char *argv[], struct character); // read ragged array function
 void JSON_Fetch(char *spellname /*name of the spell to fetch*/);
 
-
 int main(int argc, char *argv[]) {
-  struct character player;
+  struct character player1;
   
-  struct playerstats player1;
   readragged(argc, &*argv, player1); // reading ragged array
 
   Greeting(); 
@@ -87,7 +78,7 @@ int main(int argc, char *argv[]) {
   while (function_called){
   function_called = StartFunq(GetFunq());
   }
-  JSON_Fetch("vicious-mockery");
+  
 
 
   return 0;
@@ -101,7 +92,7 @@ int Read_Input(){
 
 //----------------------------------------
 // read function
-void readragged(int argc, char *argv[], struct playerstats player1) {
+void readragged(int argc, char *argv[], struct character player1) {
 
   for (int i = 0; i < argc; i++) {
 
@@ -112,9 +103,9 @@ void readragged(int argc, char *argv[], struct playerstats player1) {
               (strcmp(argv[j + i], "-h") == 0 || argv[j + i] == NULL)) {
             break;
           }
-          player1.spellslots[j] = calloc(1, sizeof(int));
-          *player1.spellslots[j] = atoi(argv[j + i]);
-          printf("%d\n", *player1.spellslots[j]);
+          player1.num_spells = calloc(1, sizeof(int));
+          player1.num_spells[j] = atoi(argv[j + i]);
+          printf("%d\n", player1.num_spells[j]);
         }
       } else if (strcmp(argv[i], "-l") == 0) {
         int count = 0;
@@ -129,14 +120,16 @@ void readragged(int argc, char *argv[], struct playerstats player1) {
           } else
             count++;
         }
-          player1.spelamount = calloc(1, sizeof(int));
-          *player1.spelamount = count;
-          player1.amount = (struct spellcard *)calloc(*player1.spelamount, sizeof(struct spellcard));
-          for (int j = 2; j <2+ *player1.spelamount; j++) {
-          player1.amount[j].spel = (char *)calloc(strlen(argv[j + i]) + 1, sizeof(char));
-          strcpy(player1.amount[j].spel, argv[j + i]);
-          printf("%s\n", player1.amount[j].spel);
-        }
+ 
+          player1.num_spells = calloc(1, sizeof(int));
+          *player1.num_spells = count;
+          for (int j = 2; j <2+ *player1.num_spells; j++) {
+          player1.spells[j].index = (char *)calloc(strlen(argv[j + i]) + 1, sizeof(char));
+          char tmp[50];
+          sscanf(argv[j + i], "%[^.] \0.json", player1.spells[j].index);
+          JSON_Fetch( player1.spells[j].index);
+          printf("%s\n", player1.spells[j].index);
+
       }
       else if (strcmp(argv[i], "-h") == 0) {
       printf("test3\n");
@@ -144,7 +137,4 @@ void readragged(int argc, char *argv[], struct playerstats player1) {
     }
   }
 }
-
-
-
 
