@@ -126,10 +126,10 @@ void readragged(int argc, char *argv[], struct character player1) {
           for (int j = 2; j <2+ *player1.num_spells; j++) {
           player1.spells[j].index = (char *)calloc(strlen(argv[j + i]) + 1, sizeof(char));
           char tmp[50];
-          sscanf(argv[j + i], "%[^.] \0.json", player1.spells[j].index);
+          sscanf(argv[j + i], "%[^.]", player1.spells[j].index);
           JSON_Fetch( player1.spells[j].index);
           printf("%s\n", player1.spells[j].index);
-
+          }
       }
       else if (strcmp(argv[i], "-h") == 0) {
       printf("test3\n");
@@ -137,4 +137,3 @@ void readragged(int argc, char *argv[], struct character player1) {
     }
   }
 }
-
