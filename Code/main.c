@@ -6,6 +6,7 @@
 #include "inputoutput.h"
 
 
+
 //ik mag geen c++ dus:
 #define FALSE 0
 #define TRUE 1
@@ -64,6 +65,7 @@ struct character {
 
 // make form json file structs
 // read ragged array
+
 struct character readragged(int argc, char *argv[], struct character); // read ragged array function
 void JSON_Fetch(char *spellname /*name of the spell to fetch*/);
 void Json_Parser(struct character);
@@ -73,7 +75,6 @@ int main(int argc, char *argv[]) {
   struct character player1;
   player1 = readragged(argc, &*argv, player1); // reading ragged array
 //  Json_Parser(player1);
-  
   Greeting(); 
   int function_called=1;
   while (function_called){
@@ -95,6 +96,7 @@ int Read_Input(){
 //----------------------------------------
 // read function
 struct character readragged(int argc, char *argv[], struct character player1) {
+
 
   for (int i = 0; i < argc; i++) {
 
@@ -122,20 +124,17 @@ struct character readragged(int argc, char *argv[], struct character player1) {
           } else
             count++;
         }
-          //createCircularLinkedList(count);
+ 
           player1.num_spells = calloc(1, sizeof(int));
           *player1.num_spells = count;
-          
           for (int j = 2; j <2+ *player1.num_spells; j++) {
           player1.spells[j].index = (char *)calloc(strlen(argv[j + i]) + 1, sizeof(char));
-          player1.spells[j].name = (char *)calloc(strlen(argv[j + i]) + 1, sizeof(char));
-          strcpy(player1.spells[j].index, argv[j + i]);
           char tmp[50];
-          sscanf(argv[j + i], "%[^.]", player1.spells[j].name);
-          JSON_Fetch( player1.spells[j].name);
-          printf("%s\n", player1.spells[j].name);
+          sscanf(argv[j + i], "%[^.]", player1.spells[j].index);
+          JSON_Fetch( player1.spells[j].index);
           printf("%s\n", player1.spells[j].index);
-        }
+          }
+
       }
       else if (strcmp(argv[i], "-h") == 0) {
       printf("test3\n");
@@ -233,3 +232,4 @@ if(player1.spells[i].higher_level != NULL){free(player1.spells[i].higher_level);
   
 }
 }
+
