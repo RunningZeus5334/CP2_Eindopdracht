@@ -150,7 +150,6 @@ void Json_Parser(struct character player1){
 for(int k = 2 ; k < 20; k++){  
   for (int i = 0 ; i < 2; i++){
   if(player1.spells[k].index == NULL)
-  {printf("test2\n");
     break;
     
   }
@@ -219,17 +218,11 @@ FILE *filePointer = fopen(player1.spells[k].index, "r"); // Open file for readin
 void functionfree(struct character player1){
 
 for(int8_t i = 2; i < 3; i++ ){
-  printf("test%d\n",i);
 if(player1.spells[i].desc != NULL){free(player1.spells[i].desc);}  
-  
 if(player1.spells[i].index != NULL){free(player1.spells[i].index);}
-  
 if(player1.spells[i].name != NULL){free(player1.spells[i].name);}
-  
 if(player1.spells[i].range != NULL){free(player1.spells[i].range);}
-  
 if(player1.spells[i].higher_level != NULL){free(player1.spells[i].higher_level);}
-  
 }
 }
 
